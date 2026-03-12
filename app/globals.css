@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+a {
+  @apply transition-colors;
+}
+
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-teal-600;
+}
+
+.card {
+  @apply rounded-3xl border border-slate-200 bg-white shadow-soft;
+}
+
+.page-wrap {
+  @apply space-y-8;
+}
+
+.section-grid {
+  @apply grid gap-6;
+}
+
+@media print {
+  aside,
+  nav,
+  .back-to-top,
+  .lg\:hidden {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+}
