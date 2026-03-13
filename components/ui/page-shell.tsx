@@ -16,6 +16,23 @@ export function PageShell({ children }: { children: ReactNode }) {
         </a>
         <CourseMobileNav />
         <div className="mt-6 lg:mt-0">{children}</div>
+        <footer className="mt-8 border-t border-slate-200 pt-6 text-center text-sm text-slate-500">
+          <p>
+            製作：
+            <a
+              href="https://blog.sportsmedicine.tw/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-teal-700 underline decoration-teal-300 underline-offset-2 hover:text-teal-900"
+            >
+              運動醫學科 吳易澄醫師
+            </a>
+          </p>
+          <p className="mt-1">
+            本網站僅供賽事醫護人員參考，實際處置請依現場狀況及醫師指示執行。
+          </p>
+          <p className="mt-1">版本：v1.5 | 2026 年 3 月</p>
+        </footer>
       </main>
       <BackToTop />
     </div>
