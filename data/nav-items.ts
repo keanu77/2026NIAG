@@ -5,7 +5,7 @@ import {
   HeartPulse,
   Home,
   MapPinned,
-  Phone,
+  // Phone,
   Shield,
   Stethoscope,
   Users,
@@ -49,5 +49,5 @@ export const navItems: NavItem[] = [
     shortLabel: "工具",
     icon: Stethoscope,
   },
-  { href: "/contacts", label: "重要窗口", shortLabel: "窗口", icon: Phone },
+  // { href: "/contacts", label: "重要窗口", shortLabel: "窗口", icon: Phone },
 ];
