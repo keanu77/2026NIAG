@@ -1,5 +1,6 @@
 import {
   Ambulance,
+  BookOpen,
   ClipboardCheck,
   FileText,
   HeartPulse,
@@ -48,6 +49,12 @@ export const navItems: NavItem[] = [
     label: "評估工具",
     shortLabel: "工具",
     icon: Stethoscope,
+  },
+  {
+    href: "/cases",
+    label: "相關案例",
+    shortLabel: "案例",
+    icon: BookOpen,
   },
   // { href: "/contacts", label: "重要窗口", shortLabel: "窗口", icon: Phone },
 ];
