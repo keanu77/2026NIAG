@@ -134,7 +134,7 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
             <CategoryBadge category={sport.category} />
             <span
               className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-                sport.medicalCategory === "技擊類"
+                sport.medicalCategory === "大會醫師先"
                   ? "border-red-200 bg-red-50 text-red-700"
                   : sport.medicalCategory === "有傷停處置時間"
                     ? "border-blue-200 bg-blue-50 text-blue-700"

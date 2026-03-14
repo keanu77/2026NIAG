@@ -40,7 +40,11 @@ export type SportDetail = {
     | "田徑類"
     | "演練類";
   icon: string;
-  medicalCategory: "技擊類" | "有傷停處置時間" | "無傷停處置時間" | "水上類";
+  medicalCategory:
+    | "大會醫師先"
+    | "有傷停處置時間"
+    | "無傷停處置時間"
+    | "水上專業先";
   rules: {
     processingTime: string;
     entryRule: string;
@@ -79,7 +83,7 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Taekwondo Sparring",
     category: "技擊類",
     icon: "🥋",
-    medicalCategory: "技擊類",
+    medicalCategory: "大會醫師先",
     rules: {
       processingTime: "1 分鐘（頭部傷害至多再 +1 分鐘）",
       entryRule: "大會醫師為主，主審指示後方可進場",
@@ -188,7 +192,7 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Judo",
     category: "技擊類",
     icon: "🥋",
-    medicalCategory: "技擊類",
+    medicalCategory: "大會醫師先",
     rules: {
       processingTime: "1 分鐘",
       entryRule: "大會醫師進場處理",
@@ -313,7 +317,7 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Wrestling",
     category: "技擊類",
     icon: "🤼",
-    medicalCategory: "技擊類",
+    medicalCategory: "大會醫師先",
     rules: {
       processingTime: "2 回合共 4 分鐘",
       entryRule: "大會醫護人員進場處理",
@@ -410,7 +414,7 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Boxing",
     category: "技擊類",
     icon: "🥊",
-    medicalCategory: "技擊類",
+    medicalCategory: "大會醫師先",
     rules: {
       processingTime: "1 分鐘",
       entryRule: "大會醫師進場處理",
@@ -514,7 +518,7 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Karate Kumite",
     category: "技擊類",
     icon: "🥋",
-    medicalCategory: "技擊類",
+    medicalCategory: "大會醫師先",
     rules: {
       processingTime: "3 分鐘/次",
       entryRule: "大會醫師簽名後進場處理",
@@ -604,7 +608,7 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Swimming",
     category: "水上類",
     icon: "🏊",
-    medicalCategory: "水上類",
+    medicalCategory: "水上專業先",
     rules: {
       processingTime: "水上專業先接手，上岸後醫護接手",
       entryRule: "水中救援由專業救生員執行，上岸後醫護接手",
@@ -684,7 +688,7 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Rowing & Canoeing",
     category: "水上類",
     icon: "🚣",
-    medicalCategory: "水上類",
+    medicalCategory: "水上專業先",
     rules: {
       processingTime: "水上專業先接手，上岸後醫護接手",
       entryRule: "水上救援由專業處理，上岸後醫護接手",
