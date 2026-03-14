@@ -17,19 +17,37 @@ export type AssessmentItem = {
 
 export type TreatmentGroup = {
   title: string;
-  items: { condition: string; clinical?: string; treatment: string; canContinue?: string }[];
+  items: {
+    condition: string;
+    clinical?: string;
+    treatment: string;
+    canContinue?: string;
+  }[];
 };
 
 export type SportDetail = {
   id: string;
   name: string;
   nameEn: string;
-  category: "技擊類" | "球拍類" | "精準類" | "水上類" | "場地類" | "重量類" | "體操類" | "田徑類" | "演練類";
+  category:
+    | "技擊類"
+    | "球拍類"
+    | "精準類"
+    | "水上類"
+    | "場地類"
+    | "重量類"
+    | "體操類"
+    | "田徑類"
+    | "演練類";
   icon: string;
+  medicalCategory: "技擊類" | "有傷停處置時間" | "無傷停處置時間" | "水上類";
   rules: {
     processingTime: string;
     entryRule: string;
     specialNote: string;
+    tapingRules?: string;
+    treatmentLocation?: string;
+    treatmentNotes?: string[];
   };
   injuries: {
     byType: InjuryItem[];
@@ -61,10 +79,14 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Taekwondo Sparring",
     category: "技擊類",
     icon: "🥋",
+    medicalCategory: "技擊類",
     rules: {
-      processingTime: "1 分鐘，可延長 +1 分鐘",
-      entryRule: "主審指示後方可進場，僅限大會指定醫師",
-      specialNote: "限定大會醫師判定是否可續賽；禁止場邊遞藥、噴劑",
+      processingTime: "1 分鐘（頭部傷害至多再 +1 分鐘）",
+      entryRule: "大會醫師為主，主審指示後方可進場",
+      specialNote: "限定大會醫師判定是否可續賽；經醫師宣布無法出賽，不得出賽",
+      tapingRules: "貼紮需符合厚度規定，須經醫師簽名",
+      treatmentLocation: "場上",
+      treatmentNotes: ["場上可處理後繼續比賽", "經醫師宣布無法出賽，不得出賽"],
     },
     injuries: {
       byType: [
@@ -82,7 +104,11 @@ export const sportsDetails: SportDetail[] = [
       ],
     },
     assessment: {
-      quickObservation: ["意識狀態（頭部被踢擊後必查）", "受傷姿勢與部位", "是否可自主活動"],
+      quickObservation: [
+        "意識狀態（頭部被踢擊後必查）",
+        "受傷姿勢與部位",
+        "是否可自主活動",
+      ],
       targeted: [
         { area: "頭部", focus: "SCAT6 快速篩檢、瞳孔反應" },
         { area: "踝/膝", focus: "Ottawa Rules、穩定度測試" },
@@ -94,24 +120,51 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "頭部撞擊/腦震盪",
         items: [
-          { condition: "意識清楚但有症狀", treatment: "SCAT6 評估、終止比賽、觀察" },
+          {
+            condition: "意識清楚但有症狀",
+            treatment: "SCAT6 評估、終止比賽、觀察",
+          },
           { condition: "意識改變", treatment: "穩定頸椎、立即後送" },
-          { condition: "鼻出血", treatment: "加壓止血、前傾姿勢", canContinue: "止血後可考慮" },
+          {
+            condition: "鼻出血",
+            treatment: "加壓止血、前傾姿勢",
+            canContinue: "止血後可考慮",
+          },
         ],
       },
       {
         title: "踝關節扭傷",
         items: [
-          { condition: "Grade I", treatment: "冰敷、貼紮", canContinue: "可考慮" },
-          { condition: "Grade II", treatment: "冰敷、彈繃", canContinue: "不建議" },
-          { condition: "Grade III", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "Grade I",
+            treatment: "冰敷、貼紮",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "Grade II",
+            treatment: "冰敷、彈繃",
+            canContinue: "不建議",
+          },
+          {
+            condition: "Grade III",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
         title: "足部傷害",
         items: [
-          { condition: "趾骨骨折", treatment: "buddy taping、冰敷", canContinue: "視疼痛" },
-          { condition: "蹠骨骨折", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "趾骨骨折",
+            treatment: "buddy taping、冰敷",
+            canContinue: "視疼痛",
+          },
+          {
+            condition: "蹠骨骨折",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
     ],
@@ -135,10 +188,20 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Judo",
     category: "技擊類",
     icon: "🥋",
+    medicalCategory: "技擊類",
     rules: {
       processingTime: "1 分鐘",
-      entryRule: "主審許可後進場，僅限外傷處理",
-      specialNote: "僅可做允許之外傷處理，須事先熟悉可進場人數與可做處置",
+      entryRule: "大會醫師進場處理",
+      specialNote:
+        "僅可提供外傷止血，須於場外進行，僅限 2 次，不得進行其他治療",
+      tapingRules: "無限制",
+      treatmentLocation: "場外",
+      treatmentNotes: [
+        "僅可提供外傷止血",
+        "須於場外進行",
+        "僅限 2 次",
+        "不得進行其他治療",
+      ],
     },
     injuries: {
       byType: [
@@ -157,7 +220,11 @@ export const sportsDetails: SportDetail[] = [
       ],
     },
     assessment: {
-      quickObservation: ["受傷機轉（摔倒/關節技/壓制）", "意識狀態", "關節明顯畸形"],
+      quickObservation: [
+        "受傷機轉（摔倒/關節技/壓制）",
+        "意識狀態",
+        "關節明顯畸形",
+      ],
       targeted: [
         { area: "肩關節", focus: "穩定度、活動範圍、畸形" },
         { area: "膝關節", focus: "Lachman test、穩定度" },
@@ -169,28 +236,65 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "肩關節傷害",
         items: [
-          { condition: "肩關節脫臼", clinical: "明顯畸形", treatment: "三角巾固定、後送（不現場復位）" },
-          { condition: "肩鎖關節扭傷", clinical: "肩上方壓痛", treatment: "冰敷、三角巾", canContinue: "不建議" },
-          { condition: "旋轉肌拉傷", clinical: "特定角度痛", treatment: "冰敷、評估功能", canContinue: "視功能" },
+          {
+            condition: "肩關節脫臼",
+            clinical: "明顯畸形",
+            treatment: "三角巾固定、後送（不現場復位）",
+          },
+          {
+            condition: "肩鎖關節扭傷",
+            clinical: "肩上方壓痛",
+            treatment: "冰敷、三角巾",
+            canContinue: "不建議",
+          },
+          {
+            condition: "旋轉肌拉傷",
+            clinical: "特定角度痛",
+            treatment: "冰敷、評估功能",
+            canContinue: "視功能",
+          },
         ],
       },
       {
         title: "膝關節傷害",
         items: [
-          { condition: "韌帶扭傷", treatment: "評估穩定度、冰敷", canContinue: "輕度可考慮" },
-          { condition: "半月板損傷", clinical: "卡住感", treatment: "冰敷、後送評估", canContinue: "不建議" },
+          {
+            condition: "韌帶扭傷",
+            treatment: "評估穩定度、冰敷",
+            canContinue: "輕度可考慮",
+          },
+          {
+            condition: "半月板損傷",
+            clinical: "卡住感",
+            treatment: "冰敷、後送評估",
+            canContinue: "不建議",
+          },
         ],
       },
       {
         title: "肘關節傷害（關節技）",
         items: [
-          { condition: "過度伸展", treatment: "冰敷、評估穩定度", canContinue: "視疼痛" },
-          { condition: "肘關節脫臼", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "過度伸展",
+            treatment: "冰敷、評估穩定度",
+            canContinue: "視疼痛",
+          },
+          {
+            condition: "肘關節脫臼",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
     ],
     noPlay: {
-      absolute: ["關節脫臼", "疑似骨折", "意識改變", "嚴重韌帶損傷", "神經症狀"],
+      absolute: [
+        "關節脫臼",
+        "疑似骨折",
+        "意識改變",
+        "嚴重韌帶損傷",
+        "神經症狀",
+      ],
       relative: ["嚴重疼痛影響動作", "關節不穩定", "中度扭傷/拉傷"],
     },
     transfer: {
@@ -209,10 +313,19 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Wrestling",
     category: "技擊類",
     icon: "🤼",
+    medicalCategory: "技擊類",
     rules: {
-      processingTime: "2 分鐘",
-      entryRule: "裁判暫停後方可進場",
-      specialNote: "注意裁判手勢、口令與可否離開墊面處置",
+      processingTime: "2 回合共 4 分鐘",
+      entryRule: "大會醫護人員進場處理",
+      specialNote:
+        "流血、明顯受傷可處理；需醫師診斷是否能繼續比賽；不可離開角力墊",
+      tapingRules: "腕、臂、踝部位須經醫師簽名",
+      treatmentLocation: "角力墊上（不可離開）",
+      treatmentNotes: [
+        "流血、明顯受傷可處理",
+        "需醫師診斷是否能繼續比賽",
+        "不可離開角力墊",
+      ],
     },
     injuries: {
       byType: [
@@ -243,17 +356,37 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "膝關節傷害",
         items: [
-          { condition: "韌帶扭傷", treatment: "評估穩定度、冰敷", canContinue: "輕度可考慮" },
-          { condition: "半月板損傷", treatment: "冰敷、後送", canContinue: "不建議" },
-          { condition: "臏骨脫臼", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "韌帶扭傷",
+            treatment: "評估穩定度、冰敷",
+            canContinue: "輕度可考慮",
+          },
+          {
+            condition: "半月板損傷",
+            treatment: "冰敷、後送",
+            canContinue: "不建議",
+          },
+          {
+            condition: "臏骨脫臼",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
         title: "皮膚傷害（墊面灼傷）",
         items: [
           { condition: "表淺擦傷", treatment: "清潔、覆蓋", canContinue: "可" },
-          { condition: "出血傷口", treatment: "止血、清潔、覆蓋", canContinue: "止血後可考慮" },
-          { condition: "耳朵血腫", treatment: "加壓、冰敷", canContinue: "視嚴重度" },
+          {
+            condition: "出血傷口",
+            treatment: "止血、清潔、覆蓋",
+            canContinue: "止血後可考慮",
+          },
+          {
+            condition: "耳朵血腫",
+            treatment: "加壓、冰敷",
+            canContinue: "視嚴重度",
+          },
         ],
       },
     ],
@@ -277,10 +410,14 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Boxing",
     category: "技擊類",
     icon: "🥊",
+    medicalCategory: "技擊類",
     rules: {
-      processingTime: "依拳台規範",
-      entryRule: "由拳台醫師主導",
-      specialNote: "拳台醫師判定頭部與臉部傷害；出血需在限定時間處理",
+      processingTime: "1 分鐘",
+      entryRule: "大會醫師進場處理",
+      specialNote: "限頭部、臉部傷害處理；進入拳台或站在圍繩邊處理",
+      tapingRules: "頭部臉部",
+      treatmentLocation: "拳台上或圍繩邊",
+      treatmentNotes: ["進入拳台或站在圍繩邊處理"],
     },
     injuries: {
       byType: [
@@ -318,21 +455,47 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "臉部出血/撕裂傷",
         items: [
-          { condition: "眉弓撕裂", treatment: "加壓止血、凡士林", canContinue: "視出血控制" },
-          { condition: "鼻出血", treatment: "加壓、前傾", canContinue: "止血後可考慮" },
-          { condition: "嚴重眼眶腫脹", treatment: "冰敷", canContinue: "影響視線則不可" },
+          {
+            condition: "眉弓撕裂",
+            treatment: "加壓止血、凡士林",
+            canContinue: "視出血控制",
+          },
+          {
+            condition: "鼻出血",
+            treatment: "加壓、前傾",
+            canContinue: "止血後可考慮",
+          },
+          {
+            condition: "嚴重眼眶腫脹",
+            treatment: "冰敷",
+            canContinue: "影響視線則不可",
+          },
         ],
       },
       {
         title: "手部傷害（拳擊手骨折）",
         items: [
-          { condition: "掌骨骨折（Boxer's fracture）", clinical: "小指掌骨壓痛", treatment: "固定、後送" },
-          { condition: "腕關節扭傷", treatment: "冰敷、彈繃", canContinue: "視疼痛" },
+          {
+            condition: "掌骨骨折（Boxer's fracture）",
+            clinical: "小指掌骨壓痛",
+            treatment: "固定、後送",
+          },
+          {
+            condition: "腕關節扭傷",
+            treatment: "冰敷、彈繃",
+            canContinue: "視疼痛",
+          },
         ],
       },
     ],
     noPlay: {
-      absolute: ["腦震盪症狀", "KO/TKO", "疑似骨折", "嚴重出血不止", "視力受影響"],
+      absolute: [
+        "腦震盪症狀",
+        "KO/TKO",
+        "疑似骨折",
+        "嚴重出血不止",
+        "視力受影響",
+      ],
       relative: ["反覆頭部打擊", "嚴重疼痛", "手部傷害影響握拳"],
     },
     transfer: {
@@ -347,14 +510,23 @@ export const sportsDetails: SportDetail[] = [
   // ──────────────────────────────────────
   {
     id: "karate",
-    name: "空手道",
-    nameEn: "Karate",
+    name: "空手道（對打）",
+    nameEn: "Karate Kumite",
     category: "技擊類",
     icon: "🥋",
+    medicalCategory: "技擊類",
     rules: {
-      processingTime: "3 分鐘",
-      entryRule: "裁判允許後方可進場",
-      specialNote: "熟悉失格與不可處置項目；無法在時限內回復則失格",
+      processingTime: "3 分鐘/次",
+      entryRule: "大會醫師簽名後進場處理",
+      specialNote:
+        "流血、明顯受傷可處理；需醫師診斷是否能繼續比賽；經醫師宣布無法出賽，不得出賽",
+      tapingRules: "須經醫師簽名",
+      treatmentLocation: "場上",
+      treatmentNotes: [
+        "流血、明顯受傷可處理",
+        "需醫師診斷是否能繼續比賽",
+        "經醫師宣布無法出賽，不得出賽",
+      ],
     },
     injuries: {
       byType: [
@@ -384,15 +556,31 @@ export const sportsDetails: SportDetail[] = [
         title: "頭部撞擊",
         items: [
           { condition: "有腦震盪症狀", treatment: "終止比賽、SCAT6 評估" },
-          { condition: "鼻出血", treatment: "加壓止血", canContinue: "止血後可考慮" },
+          {
+            condition: "鼻出血",
+            treatment: "加壓止血",
+            canContinue: "止血後可考慮",
+          },
         ],
       },
       {
         title: "四肢傷害",
         items: [
-          { condition: "踝扭傷 Grade I", treatment: "冰敷、貼紮", canContinue: "可考慮" },
-          { condition: "踝扭傷 Grade II–III", treatment: "冰敷/固定、後送", canContinue: "不可" },
-          { condition: "手指/趾骨折", treatment: "buddy taping 或固定", canContinue: "視情況" },
+          {
+            condition: "踝扭傷 Grade I",
+            treatment: "冰敷、貼紮",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "踝扭傷 Grade II–III",
+            treatment: "冰敷/固定、後送",
+            canContinue: "不可",
+          },
+          {
+            condition: "手指/趾骨折",
+            treatment: "buddy taping 或固定",
+            canContinue: "視情況",
+          },
         ],
       },
     ],
@@ -416,10 +604,11 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Swimming",
     category: "水上類",
     icon: "🏊",
+    medicalCategory: "水上類",
     rules: {
-      processingTime: "緊急時由水域專業先進場",
+      processingTime: "水上專業先接手，上岸後醫護接手",
       entryRule: "水中救援由專業救生員執行，上岸後醫護接手",
-      specialNote: "貼布限制須依規定，不得任意貼紮；注意泳池邊濕滑",
+      specialNote: "水上類運動優先由水上專業救援處理；注意泳池邊濕滑",
     },
     injuries: {
       byType: [
@@ -447,8 +636,16 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "游泳肩（肩部過度使用）",
         items: [
-          { condition: "輕度疼痛", treatment: "冰敷、伸展", canContinue: "可考慮" },
-          { condition: "中度疼痛影響泳姿", treatment: "冰敷、休息", canContinue: "不建議" },
+          {
+            condition: "輕度疼痛",
+            treatment: "冰敷、伸展",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "中度疼痛影響泳姿",
+            treatment: "冰敷、休息",
+            canContinue: "不建議",
+          },
           { condition: "嚴重疼痛", treatment: "終止比賽", canContinue: "不可" },
         ],
       },
@@ -487,10 +684,11 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Rowing & Canoeing",
     category: "水上類",
     icon: "🚣",
+    medicalCategory: "水上類",
     rules: {
-      processingTime: "依水域安全流程",
+      processingTime: "水上專業先接手，上岸後醫護接手",
       entryRule: "水上救援由專業處理，上岸後醫護接手",
-      specialNote: "優先由水上專業救援處理，再由醫護接手；注意水溫與氣溫",
+      specialNote: "水上類運動優先由水上專業救援處理；注意水溫與氣溫",
     },
     injuries: {
       byType: [
@@ -519,8 +717,16 @@ export const sportsDetails: SportDetail[] = [
         title: "腰背部傷害",
         items: [
           { condition: "肌肉疲勞", treatment: "伸展、休息" },
-          { condition: "急性拉傷", treatment: "冰敷、限制活動", canContinue: "不建議" },
-          { condition: "椎間盤症狀", treatment: "終止、後送評估", canContinue: "不可" },
+          {
+            condition: "急性拉傷",
+            treatment: "冰敷、限制活動",
+            canContinue: "不建議",
+          },
+          {
+            condition: "椎間盤症狀",
+            treatment: "終止、後送評估",
+            canContinue: "不可",
+          },
         ],
       },
       {
@@ -551,10 +757,16 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Badminton",
     category: "球拍類",
     icon: "🏸",
+    medicalCategory: "有傷停處置時間",
     rules: {
-      processingTime: "依單項規則（通常有傷停時間）",
-      entryRule: "經裁判同意後進場",
-      specialNote: "需在規定傷停時間內完成評估與處置",
+      processingTime: "未限制（越快越好）",
+      entryRule: "Dr. & AT 一起上場，經裁判同意後進場",
+      specialNote:
+        "賽中不得要求貼紮（既有加固不算）；因出血傷口止血後可貼紮覆蓋",
+      treatmentNotes: [
+        "賽中不得要求貼紮，既有加固不算",
+        "因出血傷口止血後可貼紮覆蓋",
+      ],
     },
     injuries: {
       byType: [
@@ -572,7 +784,11 @@ export const sportsDetails: SportDetail[] = [
       ],
     },
     assessment: {
-      quickObservation: ["受傷時動作（跳殺/急停/弓步）", "是否可自行站立", "明顯畸形"],
+      quickObservation: [
+        "受傷時動作（跳殺/急停/弓步）",
+        "是否可自行站立",
+        "明顯畸形",
+      ],
       targeted: [
         { area: "踝關節", focus: "Ottawa Rules、負重能力" },
         { area: "跟腱", focus: "Thompson test" },
@@ -584,23 +800,52 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "踝關節扭傷",
         items: [
-          { condition: "Grade I", treatment: "冰敷、貼紮", canContinue: "可考慮" },
-          { condition: "Grade II", treatment: "冰敷、彈繃", canContinue: "不建議" },
-          { condition: "Grade III", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "Grade I",
+            treatment: "冰敷、貼紮",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "Grade II",
+            treatment: "冰敷、彈繃",
+            canContinue: "不建議",
+          },
+          {
+            condition: "Grade III",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
         title: "跟腱傷害",
         items: [
-          { condition: "跟腱炎急性發作", treatment: "冰敷、評估", canContinue: "視疼痛" },
-          { condition: "疑似跟腱斷裂", clinical: "Thompson test 陽性", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "跟腱炎急性發作",
+            treatment: "冰敷、評估",
+            canContinue: "視疼痛",
+          },
+          {
+            condition: "疑似跟腱斷裂",
+            clinical: "Thompson test 陽性",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
         title: "肌肉拉傷",
         items: [
-          { condition: "小腿/大腿輕度拉傷", treatment: "冰敷、伸展", canContinue: "可考慮" },
-          { condition: "中重度拉傷", treatment: "冰敷、彈繃", canContinue: "不建議" },
+          {
+            condition: "小腿/大腿輕度拉傷",
+            treatment: "冰敷、伸展",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "中重度拉傷",
+            treatment: "冰敷、彈繃",
+            canContinue: "不建議",
+          },
         ],
       },
     ],
@@ -624,20 +869,42 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Tennis & Soft Tennis",
     category: "球拍類",
     icon: "🎾",
+    medicalCategory: "有傷停處置時間",
     rules: {
-      processingTime: "依單項規則（通常有傷停時間）",
-      entryRule: "經裁判同意後進場",
-      specialNote: "傷停時間有限，需快速評估並決定是否可續賽",
+      processingTime:
+        "網球：計時 3 分鐘（出血至多 5 分）｜軟網：許可治療時至多 5 分鐘",
+      entryRule: "Dr. & AT 一起上場，經裁判同意後進場",
+      specialNote:
+        "網球每部位僅能 1 次傷停處理，外加 2 次換邊/盤末休息之處理；場上不得要求抽筋處理。軟網每場可申請 2 次傷停",
+      treatmentLocation: "場上或休息區",
+      treatmentNotes: [
+        "網球：每部位僅能 1 次傷停處理",
+        "外加 2 次換邊/盤末休息之處理",
+        "場上不得要求抽筋處理",
+        "軟網：每場比賽可申請 2 次傷停",
+      ],
     },
     injuries: {
       byType: [
-        { type: "過度使用傷害", rate: "40–50%", description: "肩、肘、腕最常見" },
+        {
+          type: "過度使用傷害",
+          rate: "40–50%",
+          description: "肩、肘、腕最常見",
+        },
         { type: "扭傷 (Sprain)", rate: "25–30%", description: "踝關節" },
-        { type: "拉傷 (Strain)", rate: "15–20%", description: "大腿、小腿、腹肌" },
+        {
+          type: "拉傷 (Strain)",
+          rate: "15–20%",
+          description: "大腿、小腿、腹肌",
+        },
         { type: "挫傷", rate: "5–10%", description: "被球擊中" },
       ],
       byLocation: [
-        { location: "肘關節", rate: "25–35%", mechanism: "網球肘（外側肱骨上髁炎）" },
+        {
+          location: "肘關節",
+          rate: "25–35%",
+          mechanism: "網球肘（外側肱骨上髁炎）",
+        },
         { location: "肩關節", rate: "20–25%", mechanism: "發球動作、過度使用" },
         { location: "踝關節", rate: "15–20%", mechanism: "急停、側向移動" },
         { location: "膝關節", rate: "10–15%", mechanism: "跳躍、急轉" },
@@ -658,7 +925,11 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "網球肘（外側肱骨上髁炎）",
         items: [
-          { condition: "急性發作", treatment: "冰敷患處 → 評估疼痛程度 → 彈繃或護肘支撐 → 評估握拍能力" },
+          {
+            condition: "急性發作",
+            treatment:
+              "冰敷患處 → 評估疼痛程度 → 彈繃或護肘支撐 → 評估握拍能力",
+          },
           { condition: "疼痛可忍受且握拍穩定", treatment: "可考慮續賽" },
           { condition: "疼痛嚴重影響擊球", treatment: "不建議續賽" },
         ],
@@ -666,31 +937,73 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "肩關節傷害",
         items: [
-          { condition: "旋轉肌拉傷", clinical: "發球痛、特定角度痛", treatment: "冰敷、評估功能" },
+          {
+            condition: "旋轉肌拉傷",
+            clinical: "發球痛、特定角度痛",
+            treatment: "冰敷、評估功能",
+          },
           { condition: "肩夾擠", clinical: "抬臂痛", treatment: "休息、冰敷" },
-          { condition: "SLAP 損傷", clinical: "深層肩痛", treatment: "賽後評估" },
-          { condition: "肩關節脫臼", clinical: "畸形、無法活動", treatment: "固定、後送" },
+          {
+            condition: "SLAP 損傷",
+            clinical: "深層肩痛",
+            treatment: "賽後評估",
+          },
+          {
+            condition: "肩關節脫臼",
+            clinical: "畸形、無法活動",
+            treatment: "固定、後送",
+          },
         ],
       },
       {
         title: "踝關節扭傷",
         items: [
-          { condition: "Grade I", treatment: "冰敷、貼紮", canContinue: "可考慮" },
-          { condition: "Grade II", treatment: "冰敷、彈繃", canContinue: "不建議" },
-          { condition: "Grade III", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "Grade I",
+            treatment: "冰敷、貼紮",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "Grade II",
+            treatment: "冰敷、彈繃",
+            canContinue: "不建議",
+          },
+          {
+            condition: "Grade III",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
         title: "熱傷害（戶外網球賽事常見）",
         items: [
-          { condition: "熱痙攣", clinical: "肌肉抽筋", treatment: "休息、電解質補充" },
-          { condition: "熱衰竭", clinical: "頭暈、噁心、大量流汗", treatment: "陰涼處休息、補水" },
-          { condition: "熱中暑", clinical: "高體溫、意識改變", treatment: "緊急冷卻、後送" },
+          {
+            condition: "熱痙攣",
+            clinical: "肌肉抽筋",
+            treatment: "休息、電解質補充",
+          },
+          {
+            condition: "熱衰竭",
+            clinical: "頭暈、噁心、大量流汗",
+            treatment: "陰涼處休息、補水",
+          },
+          {
+            condition: "熱中暑",
+            clinical: "高體溫、意識改變",
+            treatment: "緊急冷卻、後送",
+          },
         ],
       },
     ],
     noPlay: {
-      absolute: ["關節脫臼", "疑似骨折", "嚴重扭傷（Grade III）", "熱中暑", "神經症狀（麻木、無力）"],
+      absolute: [
+        "關節脫臼",
+        "疑似骨折",
+        "嚴重扭傷（Grade III）",
+        "熱中暑",
+        "神經症狀（麻木、無力）",
+      ],
       relative: ["中度拉傷", "嚴重疼痛影響動作", "持續頭暈或噁心"],
     },
     transfer: {
@@ -709,10 +1022,16 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Table Tennis",
     category: "球拍類",
     icon: "🏓",
+    medicalCategory: "有傷停處置時間",
     rules: {
-      processingTime: "依單項規則",
-      entryRule: "經裁判同意後進場",
-      specialNote: "需在規定傷停時間內完成評估與處置；低撞擊運動",
+      processingTime: "至多 10 分鐘",
+      entryRule: "Dr. & AT 一起上場，經裁判同意後進場",
+      specialNote:
+        "抽筋、疲勞、賽前已受的傷不得申請傷停；手部貼紮不得與比賽球顏色相同",
+      treatmentNotes: [
+        "抽筋、疲勞、賽前已受的傷不得申請傷停",
+        "手部貼紮不得與比賽球顏色相同",
+      ],
     },
     injuries: {
       byType: [
@@ -743,15 +1062,30 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "肩關節過度使用傷害",
         items: [
-          { condition: "輕度疼痛", treatment: "冰敷、伸展", canContinue: "可考慮" },
-          { condition: "中度疼痛", treatment: "冰敷、休息", canContinue: "視功能決定" },
-          { condition: "嚴重疼痛", treatment: "終止比賽", canContinue: "不續賽" },
+          {
+            condition: "輕度疼痛",
+            treatment: "冰敷、伸展",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "中度疼痛",
+            treatment: "冰敷、休息",
+            canContinue: "視功能決定",
+          },
+          {
+            condition: "嚴重疼痛",
+            treatment: "終止比賽",
+            canContinue: "不續賽",
+          },
         ],
       },
       {
         title: "肘關節傷害（桌球肘）",
         items: [
-          { condition: "急性發作", treatment: "冰敷 → 彈繃或護肘 → 評估握拍穩定度" },
+          {
+            condition: "急性發作",
+            treatment: "冰敷 → 彈繃或護肘 → 評估握拍穩定度",
+          },
         ],
       },
       {
@@ -783,10 +1117,18 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Archery & Shooting",
     category: "精準類",
     icon: "🎯",
+    medicalCategory: "有傷停處置時間",
     rules: {
-      processingTime: "依單項規則",
-      entryRule: "著重快評估、快處置",
-      specialNote: "不影響比賽節奏；精準運動以過度使用傷害為主",
+      processingTime:
+        "射箭：未限制（越快越好），排名賽限時 15 分鐘、對抗賽不限時間｜射擊：無傷停",
+      entryRule: "射箭：發射線外處置｜射擊：無傷停處置時間",
+      specialNote: "射擊不可使用任何貼（包）紮；射箭盡量不影響比賽節奏",
+      tapingRules: "射擊：不可使用任何貼（包）紮",
+      treatmentLocation: "射箭：發射線外",
+      treatmentNotes: [
+        "射箭：排名賽限時 15 分鐘、對抗賽不限時間",
+        "射擊：不可使用任何貼（包）紮，無傷停處置時間（繼續或放棄）",
+      ],
     },
     injuries: {
       byType: [
@@ -867,10 +1209,13 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Fencing",
     category: "精準類",
     icon: "🤺",
+    medicalCategory: "有傷停處置時間",
     rules: {
-      processingTime: "依單項規則",
-      entryRule: "著重快評估、快處置",
-      specialNote: "不影響比賽節奏；注意劍刺傷/瘀傷與弓步膝",
+      processingTime: "至多 5 分鐘",
+      entryRule: "Dr. & AT 一起上場，經裁判同意後進場",
+      specialNote: "避免在劍道上處置；注意劍刺傷/瘀傷與弓步膝",
+      treatmentLocation: "避免在劍道上",
+      treatmentNotes: ["避免在劍道上處置"],
     },
     injuries: {
       byType: [
@@ -888,7 +1233,11 @@ export const sportsDetails: SportDetail[] = [
       ],
     },
     assessment: {
-      quickObservation: ["受傷部位與機轉", "是否可站立/移動", "護具是否造成問題"],
+      quickObservation: [
+        "受傷部位與機轉",
+        "是否可站立/移動",
+        "護具是否造成問題",
+      ],
       targeted: [
         { area: "膝關節", focus: "穩定度、腫脹、活動度" },
         { area: "踝關節", focus: "Ottawa Rules、負重能力" },
@@ -900,17 +1249,41 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "膝關節傷害（弓步膝）",
         items: [
-          { condition: "髕骨肌腱炎", clinical: "髕骨下疼痛", treatment: "冰敷、評估功能" },
-          { condition: "韌帶扭傷", clinical: "不穩定感", treatment: "評估穩定度、冰敷" },
-          { condition: "半月板損傷", clinical: "卡住感", treatment: "冰敷、後送" },
+          {
+            condition: "髕骨肌腱炎",
+            clinical: "髕骨下疼痛",
+            treatment: "冰敷、評估功能",
+          },
+          {
+            condition: "韌帶扭傷",
+            clinical: "不穩定感",
+            treatment: "評估穩定度、冰敷",
+          },
+          {
+            condition: "半月板損傷",
+            clinical: "卡住感",
+            treatment: "冰敷、後送",
+          },
         ],
       },
       {
         title: "踝關節扭傷",
         items: [
-          { condition: "Grade I", treatment: "冰敷、貼紮", canContinue: "可考慮" },
-          { condition: "Grade II", treatment: "冰敷、彈繃", canContinue: "不建議" },
-          { condition: "Grade III", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "Grade I",
+            treatment: "冰敷、貼紮",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "Grade II",
+            treatment: "冰敷、彈繃",
+            canContinue: "不建議",
+          },
+          {
+            condition: "Grade III",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
@@ -923,7 +1296,13 @@ export const sportsDetails: SportDetail[] = [
       },
     ],
     noPlay: {
-      absolute: ["疑似骨折", "關節脫臼", "韌帶完全斷裂", "嚴重肌肉拉傷（Grade III）", "穿透傷"],
+      absolute: [
+        "疑似骨折",
+        "關節脫臼",
+        "韌帶完全斷裂",
+        "嚴重肌肉拉傷（Grade III）",
+        "穿透傷",
+      ],
       relative: ["無法正常執行弓步", "嚴重疼痛影響動作", "中度扭傷/拉傷"],
     },
     transfer: {
@@ -942,10 +1321,11 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Track Cycling",
     category: "場地類",
     icon: "🚴",
+    medicalCategory: "有傷停處置時間",
     rules: {
-      processingTime: "依單項規則",
-      entryRule: "著重快評估、快處置",
-      specialNote: "不影響比賽節奏；高速撞擊風險（可達 70+ km/h），摔車傷害可能嚴重",
+      processingTime: "未限制（越快越好）",
+      entryRule: "Dr. & AT 一起上場，著重快評估、快處置",
+      specialNote: "高速撞擊風險（可達 70+ km/h），摔車傷害可能嚴重",
     },
     injuries: {
       byType: [
@@ -964,10 +1344,20 @@ export const sportsDetails: SportDetail[] = [
       ],
     },
     assessment: {
-      quickObservation: ["場景安全（確認比賽已停止或選手已離開賽道）", "意識狀態", "明顯畸形或大量出血"],
+      quickObservation: [
+        "場景安全（確認比賽已停止或選手已離開賽道）",
+        "意識狀態",
+        "明顯畸形或大量出血",
+      ],
       targeted: [
-        { area: "ABCDE 評估", focus: "A-呼吸道、B-呼吸、C-出血循環、D-意識神經、E-全身檢視" },
-        { area: "意識評估（必做）", focus: "SCAT6：意識狀態、定向力、記憶（摔車過程）" },
+        {
+          area: "ABCDE 評估",
+          focus: "A-呼吸道、B-呼吸、C-出血循環、D-意識神經、E-全身檢視",
+        },
+        {
+          area: "意識評估（必做）",
+          focus: "SCAT6：意識狀態、定向力、記憶（摔車過程）",
+        },
         { area: "頸椎", focus: "中線壓痛、神經症狀" },
       ],
     },
@@ -986,7 +1376,10 @@ export const sportsDetails: SportDetail[] = [
         items: [
           { condition: "步驟 1", treatment: "評估範圍與深度" },
           { condition: "步驟 2", treatment: "生理食鹽水沖洗" },
-          { condition: "步驟 3", treatment: "濕性敷料覆蓋（水膠體或矽膠敷料）" },
+          {
+            condition: "步驟 3",
+            treatment: "濕性敷料覆蓋（水膠體或矽膠敷料）",
+          },
           { condition: "步驟 4", treatment: "彈繃或網套固定" },
         ],
       },
@@ -1001,17 +1394,39 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "軀幹撞擊",
         items: [
-          { condition: "肋骨挫傷/骨折", clinical: "呼吸痛、壓痛", treatment: "評估呼吸、冰敷" },
-          { condition: "腹部撞擊", clinical: "壓痛、反彈痛", treatment: "監測、疑似內傷後送" },
+          {
+            condition: "肋骨挫傷/骨折",
+            clinical: "呼吸痛、壓痛",
+            treatment: "評估呼吸、冰敷",
+          },
+          {
+            condition: "腹部撞擊",
+            clinical: "壓痛、反彈痛",
+            treatment: "監測、疑似內傷後送",
+          },
         ],
       },
     ],
     noPlay: {
-      absolute: ["意識喪失或改變", "疑似腦震盪", "疑似骨折", "關節脫臼", "大面積或深層擦傷", "腹部撞擊疑似內傷", "頸椎疼痛或神經症狀"],
+      absolute: [
+        "意識喪失或改變",
+        "疑似腦震盪",
+        "疑似骨折",
+        "關節脫臼",
+        "大面積或深層擦傷",
+        "腹部撞擊疑似內傷",
+        "頸椎疼痛或神經症狀",
+      ],
       relative: ["多處輕度擦傷", "嚴重疼痛影響騎乘", "車輛損壞無法修復"],
     },
     transfer: {
-      immediate: ["意識改變", "疑似頸椎或脊椎損傷", "疑似內臟損傷", "大量出血", "多處骨折"],
+      immediate: [
+        "意識改變",
+        "疑似頸椎或脊椎損傷",
+        "疑似內臟損傷",
+        "大量出血",
+        "多處骨折",
+      ],
       urgent: ["單一骨折", "關節脫臼", "需縫合之撕裂傷", "深層擦傷"],
       followUp: ["輕度擦傷（已處理）", "軟組織挫傷", "輕度腦震盪（需追蹤）"],
     },
@@ -1026,14 +1441,26 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Track & Field",
     category: "田徑類",
     icon: "🏃",
+    medicalCategory: "無傷停處置時間",
     rules: {
-      processingTime: "依裁判及場地規範",
-      entryRule: "需裁判允許方可進場",
-      specialNote: "通常需判斷是否繼續或放棄；田賽與徑賽傷害模式不同",
+      processingTime: "無傷停處置時間（忍痛繼續或放棄接受處理）",
+      entryRule: "結束比賽後由醫師評估與診斷，醫護人員接手",
+      specialNote:
+        "無傷停處置時間，選手須忍痛繼續或放棄比賽接受處理；田賽與徑賽傷害模式不同",
+      tapingRules:
+        "投擲項目不得將手指黏在一起；裁判長有權核實貼紮/繃帶是否合理",
+      treatmentNotes: [
+        "投擲項目不得將手指黏在一起",
+        "裁判長有權核實貼紮/繃帶等物品是否合理",
+      ],
     },
     injuries: {
       byType: [
-        { type: "拉傷 (Strain)", rate: "35–45%", description: "腿後肌群最常見" },
+        {
+          type: "拉傷 (Strain)",
+          rate: "35–45%",
+          description: "腿後肌群最常見",
+        },
         { type: "扭傷 (Sprain)", rate: "15–25%", description: "踝關節" },
         { type: "過度使用", rate: "15–20%", description: "脛骨痛、跟腱炎" },
         { type: "挫傷/擦傷", rate: "10–15%", description: "跌倒、碰撞" },
@@ -1049,7 +1476,11 @@ export const sportsDetails: SportDetail[] = [
       ],
     },
     assessment: {
-      quickObservation: ["受傷時動作（衝刺/跳躍/投擲/跌倒）", "是否可自行站立行走", "明顯畸形"],
+      quickObservation: [
+        "受傷時動作（衝刺/跳躍/投擲/跌倒）",
+        "是否可自行站立行走",
+        "明顯畸形",
+      ],
       targeted: [
         { area: "大腿後側", focus: "壓痛範圍、收縮力、伸展痛" },
         { area: "踝關節", focus: "Ottawa Rules、負重能力" },
@@ -1061,17 +1492,41 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "腿後肌拉傷（最常見）",
         items: [
-          { condition: "輕度拉傷", treatment: "冰敷、輕度伸展", canContinue: "可考慮" },
-          { condition: "中度拉傷", treatment: "冰敷、彈繃", canContinue: "不建議" },
-          { condition: "重度拉傷（聽到/感到撕裂）", treatment: "冰敷、固定、後送", canContinue: "不可" },
+          {
+            condition: "輕度拉傷",
+            treatment: "冰敷、輕度伸展",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "中度拉傷",
+            treatment: "冰敷、彈繃",
+            canContinue: "不建議",
+          },
+          {
+            condition: "重度拉傷（聽到/感到撕裂）",
+            treatment: "冰敷、固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
         title: "踝關節扭傷",
         items: [
-          { condition: "Grade I", treatment: "冰敷、貼紮", canContinue: "可考慮" },
-          { condition: "Grade II", treatment: "冰敷、彈繃", canContinue: "不建議" },
-          { condition: "Grade III", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "Grade I",
+            treatment: "冰敷、貼紮",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "Grade II",
+            treatment: "冰敷、彈繃",
+            canContinue: "不建議",
+          },
+          {
+            condition: "Grade III",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
@@ -1103,10 +1558,13 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Gymnastics",
     category: "體操類",
     icon: "🤸",
+    medicalCategory: "無傷停處置時間",
     rules: {
-      processingTime: "依裁判及場地規範",
-      entryRule: "通常需判斷是否繼續或放棄",
+      processingTime: "無傷停處置時間（忍痛繼續或放棄接受處理）",
+      entryRule: "結束比賽後由醫師評估與診斷，醫護人員接手",
       specialNote: "高風險項目，嚴重傷害可能性高；摔落/高處墜落必做脊椎評估",
+      tapingRules: "競技體操與韻律體操：不得出現非膚色之貼布，要以膚色貼布覆蓋",
+      treatmentNotes: ["不得出現非膚色之貼布", "要以膚色貼布覆蓋"],
     },
     injuries: {
       byType: [
@@ -1129,8 +1587,14 @@ export const sportsDetails: SportDetail[] = [
     assessment: {
       quickObservation: ["確認可安全接近", "評估摔落高度與方式", "意識狀態"],
       targeted: [
-        { area: "ABCDE 評估", focus: "A-呼吸道、B-呼吸、C-循環、D-神經功能、E-暴露檢視" },
-        { area: "脊椎評估（高處摔落必做）", focus: "頸背部中線壓痛、四肢感覺運動、假設脊椎損傷直到排除" },
+        {
+          area: "ABCDE 評估",
+          focus: "A-呼吸道、B-呼吸、C-循環、D-神經功能、E-暴露檢視",
+        },
+        {
+          area: "脊椎評估（高處摔落必做）",
+          focus: "頸背部中線壓痛、四肢感覺運動、假設脊椎損傷直到排除",
+        },
       ],
     },
     treatments: [
@@ -1146,18 +1610,42 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "踝關節傷害（最常見）",
         items: [
-          { condition: "輕度扭傷", treatment: "冰敷、貼紮", canContinue: "可考慮" },
-          { condition: "中度扭傷", treatment: "冰敷、彈繃", canContinue: "不建議" },
-          { condition: "嚴重扭傷/骨折", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "輕度扭傷",
+            treatment: "冰敷、貼紮",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "中度扭傷",
+            treatment: "冰敷、彈繃",
+            canContinue: "不建議",
+          },
+          {
+            condition: "嚴重扭傷/骨折",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
         title: "腕關節傷害",
         items: [
-          { condition: "扭傷", clinical: "腫脹、壓痛", treatment: "PEACE 原則、彈繃" },
-          { condition: "骨折", clinical: "畸形、劇痛", treatment: "副木固定、後送" },
+          {
+            condition: "扭傷",
+            clinical: "腫脹、壓痛",
+            treatment: "PEACE 原則、彈繃",
+          },
+          {
+            condition: "骨折",
+            clinical: "畸形、劇痛",
+            treatment: "副木固定、後送",
+          },
           { condition: "脫臼", clinical: "明顯畸形", treatment: "固定、後送" },
-          { condition: "遠端橈骨骨骺炎（Gymnast's Wrist）", clinical: "腕背側痛、負重痛", treatment: "終止比賽、轉介（14歲以下優先考慮）" },
+          {
+            condition: "遠端橈骨骨骺炎（Gymnast's Wrist）",
+            clinical: "腕背側痛、負重痛",
+            treatment: "終止比賽、轉介（14歲以下優先考慮）",
+          },
         ],
       },
       {
@@ -1171,11 +1659,23 @@ export const sportsDetails: SportDetail[] = [
       },
     ],
     noPlay: {
-      absolute: ["疑似脊椎損傷", "疑似骨折", "關節脫臼", "腦震盪症狀", "嚴重扭傷", "神經症狀"],
+      absolute: [
+        "疑似脊椎損傷",
+        "疑似骨折",
+        "關節脫臼",
+        "腦震盪症狀",
+        "嚴重扭傷",
+        "神經症狀",
+      ],
       relative: ["嚴重疼痛影響動作", "關節不穩定", "無法安全完成動作"],
     },
     transfer: {
-      immediate: ["疑似脊椎損傷", "意識改變", "嚴重骨折或多處骨折", "開放性骨折"],
+      immediate: [
+        "疑似脊椎損傷",
+        "意識改變",
+        "嚴重骨折或多處骨折",
+        "開放性骨折",
+      ],
       urgent: ["單一骨折", "關節脫臼", "需影像評估之傷害"],
       followUp: ["輕中度扭傷/拉傷", "過度使用傷害"],
     },
@@ -1190,10 +1690,19 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Weightlifting",
     category: "重量類",
     icon: "🏋️",
+    medicalCategory: "無傷停處置時間",
     rules: {
-      processingTime: "依裁判及場地規範",
-      entryRule: "通常需判斷是否繼續或放棄",
+      processingTime: "無傷停處置時間（忍痛繼續或放棄接受處理）",
+      entryRule: "結束比賽後由醫師評估與診斷，醫護人員接手",
       specialNote: "重量負荷傷害風險高；注意瓦氏動作引起的血壓驟升",
+      tapingRules:
+        "手肘上/下 5 公分內不得使用貼包紮；手指與拇指貼紮不得突出指尖；得覆蓋手部並得連接至手腕；身體軀幹使用繃帶必須在舉重衣內",
+      treatmentNotes: [
+        "手肘上/下 5 公分內不得使用貼包紮",
+        "手指與拇指貼紮不得突出指尖",
+        "得覆蓋手部並得連接至手腕",
+        "身體軀幹使用繃帶必須在舉重衣內",
+      ],
     },
     injuries: {
       byType: [
@@ -1203,15 +1712,27 @@ export const sportsDetails: SportDetail[] = [
         { type: "骨折", rate: "少見", description: "應力性骨折" },
       ],
       byLocation: [
-        { location: "腰背部", rate: "30–40%", mechanism: "肌肉拉傷、椎間盤問題" },
+        {
+          location: "腰背部",
+          rate: "30–40%",
+          mechanism: "肌肉拉傷、椎間盤問題",
+        },
         { location: "肩關節", rate: "20–25%", mechanism: "旋轉肌傷害、不穩定" },
-        { location: "膝關節", rate: "15–20%", mechanism: "髕骨肌腱炎、韌帶傷害" },
+        {
+          location: "膝關節",
+          rate: "15–20%",
+          mechanism: "髕骨肌腱炎、韌帶傷害",
+        },
         { location: "腕關節", rate: "10–15%", mechanism: "過度背屈傷害" },
         { location: "手肘", rate: "5–10%", mechanism: "過度伸展" },
       ],
     },
     assessment: {
-      quickObservation: ["受傷機轉（舉起中、落下時）", "槓鈴是否已移開", "選手姿勢與意識"],
+      quickObservation: [
+        "受傷機轉（舉起中、落下時）",
+        "槓鈴是否已移開",
+        "選手姿勢與意識",
+      ],
       targeted: [
         { area: "腰背", focus: "神經症狀、活動度" },
         { area: "肩關節", focus: "穩定度、活動範圍" },
@@ -1223,17 +1744,41 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "腰背部傷害（最常見）",
         items: [
-          { condition: "肌肉痙攣", clinical: "局部疼痛、緊繃", treatment: "冰敷、輕度伸展" },
-          { condition: "急性拉傷", clinical: "劇痛、活動受限", treatment: "冰敷、限制活動" },
-          { condition: "椎間盤問題", clinical: "放射痛至下肢", treatment: "立即終止、後送" },
+          {
+            condition: "肌肉痙攣",
+            clinical: "局部疼痛、緊繃",
+            treatment: "冰敷、輕度伸展",
+          },
+          {
+            condition: "急性拉傷",
+            clinical: "劇痛、活動受限",
+            treatment: "冰敷、限制活動",
+          },
+          {
+            condition: "椎間盤問題",
+            clinical: "放射痛至下肢",
+            treatment: "立即終止、後送",
+          },
         ],
       },
       {
         title: "肩關節傷害",
         items: [
-          { condition: "旋轉肌拉傷", clinical: "特定角度痛", treatment: "冰敷、評估功能" },
-          { condition: "肩關節不穩定", clinical: "脫位感", treatment: "終止比賽、後續評估" },
-          { condition: "肩關節脫臼", clinical: "明顯畸形", treatment: "固定、後送" },
+          {
+            condition: "旋轉肌拉傷",
+            clinical: "特定角度痛",
+            treatment: "冰敷、評估功能",
+          },
+          {
+            condition: "肩關節不穩定",
+            clinical: "脫位感",
+            treatment: "終止比賽、後續評估",
+          },
+          {
+            condition: "肩關節脫臼",
+            clinical: "明顯畸形",
+            treatment: "固定、後送",
+          },
         ],
       },
       {
@@ -1254,7 +1799,13 @@ export const sportsDetails: SportDetail[] = [
       },
     ],
     noPlay: {
-      absolute: ["腰背傷害伴神經症狀", "肩關節脫臼", "疑似骨折", "意識喪失", "嚴重肌肉拉傷"],
+      absolute: [
+        "腰背傷害伴神經症狀",
+        "肩關節脫臼",
+        "疑似骨折",
+        "意識喪失",
+        "嚴重肌肉拉傷",
+      ],
       relative: ["嚴重疼痛影響動作", "關節不穩定", "無法安全舉重"],
     },
     transfer: {
@@ -1273,10 +1824,17 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Poomsae & Kata",
     category: "演練類",
     icon: "🥋",
+    medicalCategory: "無傷停處置時間",
     rules: {
-      processingTime: "依裁判規範",
-      entryRule: "多以安全確認與場邊處理為主",
+      processingTime: "無傷停處置時間（忍痛繼續或放棄接受處理）",
+      entryRule: "結束比賽後由醫師評估與診斷，醫護人員接手",
       specialNote: "無對打接觸，傷害以過度使用為主；急性傷害較少",
+      tapingRules:
+        "跆拳道品勢：貼紮應包覆於道服內，不得出現非膚色之貼布裸露｜空手道型：無限制",
+      treatmentNotes: [
+        "跆拳道品勢：貼紮應包覆於道服內，不得出現非膚色之貼布裸露",
+        "空手道型：無限制",
+      ],
     },
     injuries: {
       byType: [
@@ -1294,7 +1852,11 @@ export const sportsDetails: SportDetail[] = [
       ],
     },
     assessment: {
-      quickObservation: ["受傷時動作（踢擊、跳躍、旋轉）", "選手自主活動能力", "明顯外傷或異常姿勢"],
+      quickObservation: [
+        "受傷時動作（踢擊、跳躍、旋轉）",
+        "選手自主活動能力",
+        "明顯外傷或異常姿勢",
+      ],
       targeted: [
         { area: "髖部", focus: "活動度、髖屈肌張力" },
         { area: "踝關節", focus: "Ottawa Rules、負重能力" },
@@ -1306,18 +1868,46 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "髖部/骨盆傷害（品勢最常見）",
         items: [
-          { condition: "髖屈肌拉傷", clinical: "抬腿痛、髖前方壓痛", treatment: "PEACE 原則、休息" },
-          { condition: "髂脛束症候群", clinical: "髖外側痛", treatment: "伸展、泡棉滾筒" },
-          { condition: "恥骨聯合炎", clinical: "恥骨壓痛", treatment: "休息、後續評估" },
-          { condition: "髖關節夾擠 (FAI)", clinical: "屈髖+內旋痛、鼠蹊深層痛", treatment: "終止比賽、轉介評估" },
+          {
+            condition: "髖屈肌拉傷",
+            clinical: "抬腿痛、髖前方壓痛",
+            treatment: "PEACE 原則、休息",
+          },
+          {
+            condition: "髂脛束症候群",
+            clinical: "髖外側痛",
+            treatment: "伸展、泡棉滾筒",
+          },
+          {
+            condition: "恥骨聯合炎",
+            clinical: "恥骨壓痛",
+            treatment: "休息、後續評估",
+          },
+          {
+            condition: "髖關節夾擠 (FAI)",
+            clinical: "屈髖+內旋痛、鼠蹊深層痛",
+            treatment: "終止比賽、轉介評估",
+          },
         ],
       },
       {
         title: "踝關節扭傷",
         items: [
-          { condition: "Grade I", treatment: "冰敷、貼紮", canContinue: "可考慮" },
-          { condition: "Grade II", treatment: "冰敷、彈繃", canContinue: "不建議" },
-          { condition: "Grade III", treatment: "固定、後送", canContinue: "不可" },
+          {
+            condition: "Grade I",
+            treatment: "冰敷、貼紮",
+            canContinue: "可考慮",
+          },
+          {
+            condition: "Grade II",
+            treatment: "冰敷、彈繃",
+            canContinue: "不建議",
+          },
+          {
+            condition: "Grade III",
+            treatment: "固定、後送",
+            canContinue: "不可",
+          },
         ],
       },
       {
@@ -1357,9 +1947,10 @@ export const sportsDetails: SportDetail[] = [
     nameEn: "Woodball",
     category: "場地類",
     icon: "🏌️",
+    medicalCategory: "有傷停處置時間",
     rules: {
       processingTime: "依單項規則",
-      entryRule: "著重快評估、快處置",
+      entryRule: "Dr. & AT 一起上場，著重快評估、快處置",
       specialNote: "不影響比賽節奏；戶外賽事注意環境因素（熱傷害、蚊蟲）",
     },
     injuries: {
@@ -1383,9 +1974,21 @@ export const sportsDetails: SportDetail[] = [
       {
         title: "熱傷害",
         items: [
-          { condition: "熱痙攣", clinical: "肌肉抽筋", treatment: "休息、電解質補充" },
-          { condition: "熱衰竭", clinical: "頭暈、噁心、大量流汗", treatment: "陰涼處、補水、冷卻" },
-          { condition: "熱中暑", clinical: "高體溫、意識改變", treatment: "積極冷卻、立即後送" },
+          {
+            condition: "熱痙攣",
+            clinical: "肌肉抽筋",
+            treatment: "休息、電解質補充",
+          },
+          {
+            condition: "熱衰竭",
+            clinical: "頭暈、噁心、大量流汗",
+            treatment: "陰涼處、補水、冷卻",
+          },
+          {
+            condition: "熱中暑",
+            clinical: "高體溫、意識改變",
+            treatment: "積極冷卻、立即後送",
+          },
         ],
       },
       {
@@ -1426,16 +2029,51 @@ export const sportsDetails: SportDetail[] = [
 ];
 
 // 分類色彩對照
-export const categoryColors: Record<string, { bg: string; text: string; border: string }> = {
+export const categoryColors: Record<
+  string,
+  { bg: string; text: string; border: string }
+> = {
   技擊類: { bg: "bg-red-50", text: "text-red-700", border: "border-red-200" },
-  球拍類: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200" },
-  精準類: { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" },
-  水上類: { bg: "bg-cyan-50", text: "text-cyan-700", border: "border-cyan-200" },
-  場地類: { bg: "bg-orange-50", text: "text-orange-700", border: "border-orange-200" },
-  重量類: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200" },
-  體操類: { bg: "bg-pink-50", text: "text-pink-700", border: "border-pink-200" },
-  田徑類: { bg: "bg-green-50", text: "text-green-700", border: "border-green-200" },
-  演練類: { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200" },
+  球拍類: {
+    bg: "bg-blue-50",
+    text: "text-blue-700",
+    border: "border-blue-200",
+  },
+  精準類: {
+    bg: "bg-purple-50",
+    text: "text-purple-700",
+    border: "border-purple-200",
+  },
+  水上類: {
+    bg: "bg-cyan-50",
+    text: "text-cyan-700",
+    border: "border-cyan-200",
+  },
+  場地類: {
+    bg: "bg-orange-50",
+    text: "text-orange-700",
+    border: "border-orange-200",
+  },
+  重量類: {
+    bg: "bg-amber-50",
+    text: "text-amber-700",
+    border: "border-amber-200",
+  },
+  體操類: {
+    bg: "bg-pink-50",
+    text: "text-pink-700",
+    border: "border-pink-200",
+  },
+  田徑類: {
+    bg: "bg-green-50",
+    text: "text-green-700",
+    border: "border-green-200",
+  },
+  演練類: {
+    bg: "bg-indigo-50",
+    text: "text-indigo-700",
+    border: "border-indigo-200",
+  },
 };
 
 export const allCategories = [

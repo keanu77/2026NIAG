@@ -22,7 +22,9 @@ function Highlight({ text, query }: { text: string; query: string }) {
     <>
       {parts.map((part, i) =>
         part.toLowerCase() === query.toLowerCase() ? (
-          <mark key={i} className="rounded bg-yellow-200 px-0.5">{part}</mark>
+          <mark key={i} className="rounded bg-yellow-200 px-0.5">
+            {part}
+          </mark>
         ) : (
           part
         ),
@@ -33,9 +35,15 @@ function Highlight({ text, query }: { text: string; query: string }) {
 
 /* ───── 分類標籤 ───── */
 function CategoryBadge({ category }: { category: string }) {
-  const c = categoryColors[category] ?? { bg: "bg-slate-50", text: "text-slate-700", border: "border-slate-200" };
+  const c = categoryColors[category] ?? {
+    bg: "bg-slate-50",
+    text: "text-slate-700",
+    border: "border-slate-200",
+  };
   return (
-    <span className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${c.bg} ${c.text} ${c.border}`}>
+    <span
+      className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${c.bg} ${c.text} ${c.border}`}
+    >
       {category}
     </span>
   );
@@ -52,7 +60,9 @@ function TreatmentTable({ group }: { group: TreatmentGroup }) {
             <tr className="border-b border-slate-200 text-left">
               <th className="pb-2 pr-3 font-medium text-slate-500">情況</th>
               {group.items.some((i) => i.clinical) && (
-                <th className="pb-2 pr-3 font-medium text-slate-500">臨床特徵</th>
+                <th className="pb-2 pr-3 font-medium text-slate-500">
+                  臨床特徵
+                </th>
               )}
               <th className="pb-2 pr-3 font-medium text-slate-500">處置</th>
               {group.items.some((i) => i.canContinue) && (
@@ -63,9 +73,13 @@ function TreatmentTable({ group }: { group: TreatmentGroup }) {
           <tbody className="divide-y divide-slate-100">
             {group.items.map((item, i) => (
               <tr key={i}>
-                <td className="py-2 pr-3 font-medium text-slate-700">{item.condition}</td>
+                <td className="py-2 pr-3 font-medium text-slate-700">
+                  {item.condition}
+                </td>
                 {group.items.some((i) => i.clinical) && (
-                  <td className="py-2 pr-3 text-slate-600">{item.clinical ?? "—"}</td>
+                  <td className="py-2 pr-3 text-slate-600">
+                    {item.clinical ?? "—"}
+                  </td>
                 )}
                 <td className="py-2 pr-3 text-slate-600">{item.treatment}</td>
                 {group.items.some((i) => i.canContinue) && (
@@ -73,9 +87,12 @@ function TreatmentTable({ group }: { group: TreatmentGroup }) {
                     {item.canContinue ? (
                       <span
                         className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                          item.canContinue.includes("不可") || item.canContinue.includes("不建議") || item.canContinue.includes("不續賽")
+                          item.canContinue.includes("不可") ||
+                          item.canContinue.includes("不建議") ||
+                          item.canContinue.includes("不續賽")
                             ? "bg-red-50 text-red-700"
-                            : item.canContinue.includes("可考慮") || item.canContinue === "可"
+                            : item.canContinue.includes("可考慮") ||
+                                item.canContinue === "可"
                               ? "bg-green-50 text-green-700"
                               : "bg-amber-50 text-amber-700"
                         }`}
@@ -115,10 +132,24 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
               <Highlight text={sport.name} query={query} />
             </h3>
             <CategoryBadge category={sport.category} />
+            <span
+              className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${
+                sport.medicalCategory === "技擊類"
+                  ? "border-red-200 bg-red-50 text-red-700"
+                  : sport.medicalCategory === "有傷停處置時間"
+                    ? "border-blue-200 bg-blue-50 text-blue-700"
+                    : sport.medicalCategory === "無傷停處置時間"
+                      ? "border-amber-200 bg-amber-50 text-amber-700"
+                      : "border-cyan-200 bg-cyan-50 text-cyan-700"
+              }`}
+            >
+              {sport.medicalCategory}
+            </span>
           </div>
           <p className="mt-1 text-xs text-slate-500">{sport.nameEn}</p>
           <p className="mt-1 text-sm text-teal-700">
-            處理時間：<Highlight text={sport.rules.processingTime} query={query} />
+            處理時間：
+            <Highlight text={sport.rules.processingTime} query={query} />
           </p>
         </div>
         <svg
@@ -128,7 +159,11 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
           stroke="currentColor"
           strokeWidth={2}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
@@ -138,53 +173,111 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
           {/* 比賽規則 */}
           <section>
             <h3 className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">1</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">
+                1
+              </span>
               比賽規則摘要
             </h3>
             <div className="grid gap-2 text-sm sm:grid-cols-3">
               <div className="rounded-xl bg-slate-50 p-3">
-                <p className="text-xs font-medium text-slate-500">處理時間</p>
-                <p className="mt-1 font-medium text-slate-800">{sport.rules.processingTime}</p>
+                <p className="text-xs font-medium text-slate-500">
+                  傷停處理時間
+                </p>
+                <p className="mt-1 font-medium text-slate-800">
+                  {sport.rules.processingTime}
+                </p>
               </div>
               <div className="rounded-xl bg-slate-50 p-3">
                 <p className="text-xs font-medium text-slate-500">進場規定</p>
-                <p className="mt-1 font-medium text-slate-800">{sport.rules.entryRule}</p>
+                <p className="mt-1 font-medium text-slate-800">
+                  {sport.rules.entryRule}
+                </p>
               </div>
               <div className="rounded-xl bg-slate-50 p-3">
                 <p className="text-xs font-medium text-slate-500">特殊注意</p>
-                <p className="mt-1 font-medium text-slate-800">{sport.rules.specialNote}</p>
+                <p className="mt-1 font-medium text-slate-800">
+                  {sport.rules.specialNote}
+                </p>
               </div>
+              {sport.rules.tapingRules && (
+                <div className="rounded-xl bg-slate-50 p-3">
+                  <p className="text-xs font-medium text-slate-500">貼紮規定</p>
+                  <p className="mt-1 font-medium text-slate-800">
+                    {sport.rules.tapingRules}
+                  </p>
+                </div>
+              )}
+              {sport.rules.treatmentLocation && (
+                <div className="rounded-xl bg-slate-50 p-3">
+                  <p className="text-xs font-medium text-slate-500">處置地點</p>
+                  <p className="mt-1 font-medium text-slate-800">
+                    {sport.rules.treatmentLocation}
+                  </p>
+                </div>
+              )}
             </div>
+            {sport.rules.treatmentNotes &&
+              sport.rules.treatmentNotes.length > 0 && (
+                <div className="mt-2 rounded-xl border border-amber-200 bg-amber-50 p-3">
+                  <p className="mb-1 text-xs font-bold text-amber-700">
+                    處置內容規定
+                  </p>
+                  <ul className="space-y-1 text-sm text-amber-800">
+                    {sport.rules.treatmentNotes.map((note, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="mt-0.5">&#9888;</span>
+                        {note}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
           </section>
 
           {/* 常見傷害 */}
           <section>
             <h3 className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">2</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">
+                2
+              </span>
               常見傷害
             </h3>
             {sport.injuries.byType.length > 0 && (
               <div className="mb-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">依傷害類型</p>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  依傷害類型
+                </p>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-slate-200 text-left">
-                        <th className="pb-2 pr-3 font-medium text-slate-500">類型</th>
+                        <th className="pb-2 pr-3 font-medium text-slate-500">
+                          類型
+                        </th>
                         {sport.injuries.byType.some((i) => i.rate) && (
-                          <th className="pb-2 pr-3 font-medium text-slate-500">發生率</th>
+                          <th className="pb-2 pr-3 font-medium text-slate-500">
+                            發生率
+                          </th>
                         )}
-                        <th className="pb-2 font-medium text-slate-500">說明</th>
+                        <th className="pb-2 font-medium text-slate-500">
+                          說明
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {sport.injuries.byType.map((inj, i) => (
                         <tr key={i}>
-                          <td className="py-1.5 pr-3 font-medium text-slate-700">{inj.type}</td>
+                          <td className="py-1.5 pr-3 font-medium text-slate-700">
+                            {inj.type}
+                          </td>
                           {sport.injuries.byType.some((i) => i.rate) && (
-                            <td className="py-1.5 pr-3 text-teal-700">{inj.rate ?? "—"}</td>
+                            <td className="py-1.5 pr-3 text-teal-700">
+                              {inj.rate ?? "—"}
+                            </td>
                           )}
-                          <td className="py-1.5 text-slate-600">{inj.description}</td>
+                          <td className="py-1.5 text-slate-600">
+                            {inj.description}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -194,26 +287,40 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
             )}
             {sport.injuries.byLocation.length > 0 && (
               <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">依受傷部位</p>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  依受傷部位
+                </p>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-slate-200 text-left">
-                        <th className="pb-2 pr-3 font-medium text-slate-500">部位</th>
+                        <th className="pb-2 pr-3 font-medium text-slate-500">
+                          部位
+                        </th>
                         {sport.injuries.byLocation.some((i) => i.rate) && (
-                          <th className="pb-2 pr-3 font-medium text-slate-500">發生率</th>
+                          <th className="pb-2 pr-3 font-medium text-slate-500">
+                            發生率
+                          </th>
                         )}
-                        <th className="pb-2 font-medium text-slate-500">常見機轉</th>
+                        <th className="pb-2 font-medium text-slate-500">
+                          常見機轉
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {sport.injuries.byLocation.map((inj, i) => (
                         <tr key={i}>
-                          <td className="py-1.5 pr-3 font-medium text-slate-700">{inj.location}</td>
+                          <td className="py-1.5 pr-3 font-medium text-slate-700">
+                            {inj.location}
+                          </td>
                           {sport.injuries.byLocation.some((i) => i.rate) && (
-                            <td className="py-1.5 pr-3 text-teal-700">{inj.rate ?? "—"}</td>
+                            <td className="py-1.5 pr-3 text-teal-700">
+                              {inj.rate ?? "—"}
+                            </td>
                           )}
-                          <td className="py-1.5 text-slate-600">{inj.mechanism}</td>
+                          <td className="py-1.5 text-slate-600">
+                            {inj.mechanism}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -226,12 +333,16 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
           {/* 現場評估 */}
           <section>
             <h3 className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">3</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">
+                3
+              </span>
               現場快速評估
             </h3>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-xl bg-slate-50 p-3">
-                <p className="mb-2 text-xs font-semibold text-slate-500">快速觀察</p>
+                <p className="mb-2 text-xs font-semibold text-slate-500">
+                  快速觀察
+                </p>
                 <ul className="space-y-1 text-sm text-slate-700">
                   {sport.assessment.quickObservation.map((item, i) => (
                     <li key={i} className="flex items-start gap-2">
@@ -242,11 +353,15 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
                 </ul>
               </div>
               <div className="rounded-xl bg-slate-50 p-3">
-                <p className="mb-2 text-xs font-semibold text-slate-500">針對性評估</p>
+                <p className="mb-2 text-xs font-semibold text-slate-500">
+                  針對性評估
+                </p>
                 <div className="space-y-1 text-sm">
                   {sport.assessment.targeted.map((item, i) => (
                     <div key={i}>
-                      <span className="font-medium text-slate-700">{item.area}：</span>
+                      <span className="font-medium text-slate-700">
+                        {item.area}：
+                      </span>
                       <span className="text-slate-600">{item.focus}</span>
                     </div>
                   ))}
@@ -258,7 +373,9 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
           {/* 處置建議 */}
           <section>
             <h3 className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">4</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">
+                4
+              </span>
               常見傷害處置建議
             </h3>
             <div className="space-y-4">
@@ -271,12 +388,16 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
           {/* 不可續賽 */}
           <section>
             <h3 className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-100 text-xs text-red-700">!</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-100 text-xs text-red-700">
+                !
+              </span>
               不可續賽的情況
             </h3>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-xl border border-red-200 bg-red-50 p-3">
-                <p className="mb-2 text-xs font-bold text-red-700">絕對禁止續賽</p>
+                <p className="mb-2 text-xs font-bold text-red-700">
+                  絕對禁止續賽
+                </p>
                 <ul className="space-y-1 text-sm text-red-800">
                   {sport.noPlay.absolute.map((item, i) => (
                     <li key={i} className="flex items-start gap-2">
@@ -287,7 +408,9 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
                 </ul>
               </div>
               <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
-                <p className="mb-2 text-xs font-bold text-amber-700">相對禁止續賽</p>
+                <p className="mb-2 text-xs font-bold text-amber-700">
+                  相對禁止續賽
+                </p>
                 <ul className="space-y-1 text-sm text-amber-800">
                   {sport.noPlay.relative.map((item, i) => (
                     <li key={i} className="flex items-start gap-2">
@@ -303,13 +426,17 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
           {/* 轉送標準 */}
           <section>
             <h3 className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">5</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-teal-100 text-xs text-teal-700">
+                5
+              </span>
               轉送標準
             </h3>
             <div className="grid gap-3 sm:grid-cols-3">
               {sport.transfer.immediate.length > 0 && (
                 <div className="rounded-xl border border-red-200 bg-red-50 p-3">
-                  <p className="mb-2 text-xs font-bold text-red-700">立即後送</p>
+                  <p className="mb-2 text-xs font-bold text-red-700">
+                    立即後送
+                  </p>
                   <ul className="space-y-1 text-sm text-slate-700">
                     {sport.transfer.immediate.map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
@@ -322,7 +449,9 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
               )}
               {sport.transfer.urgent.length > 0 && (
                 <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
-                  <p className="mb-2 text-xs font-bold text-amber-700">儘速就醫</p>
+                  <p className="mb-2 text-xs font-bold text-amber-700">
+                    儘速就醫
+                  </p>
                   <ul className="space-y-1 text-sm text-slate-700">
                     {sport.transfer.urgent.map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
@@ -335,7 +464,9 @@ function SportCard({ sport, query }: { sport: SportDetail; query: string }) {
               )}
               {sport.transfer.followUp.length > 0 && (
                 <div className="rounded-xl border border-green-200 bg-green-50 p-3">
-                  <p className="mb-2 text-xs font-bold text-green-700">門診追蹤</p>
+                  <p className="mb-2 text-xs font-bold text-green-700">
+                    門診追蹤
+                  </p>
                   <ul className="space-y-1 text-sm text-slate-700">
                     {sport.transfer.followUp.map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
@@ -377,10 +508,15 @@ export default function SportsPage() {
           s.rules.specialNote,
           ...s.injuries.byType.map((i) => `${i.type} ${i.description}`),
           ...s.injuries.byLocation.map((i) => `${i.location} ${i.mechanism}`),
-          ...s.treatments.flatMap((t) => [t.title, ...t.items.map((i) => `${i.condition} ${i.treatment}`)]),
+          ...s.treatments.flatMap((t) => [
+            t.title,
+            ...t.items.map((i) => `${i.condition} ${i.treatment}`),
+          ]),
           ...s.noPlay.absolute,
           ...s.noPlay.relative,
-        ].join(" ").toLowerCase();
+        ]
+          .join(" ")
+          .toLowerCase();
         return searchable.includes(q);
       });
     }
@@ -392,7 +528,9 @@ export default function SportsPage() {
     return sportsRuleGroups
       .map((group) => ({
         ...group,
-        sports: group.sports.filter((item) => `${group.group} ${item.name} ${item.note}`.includes(query)),
+        sports: group.sports.filter((item) =>
+          `${group.group} ${item.name} ${item.note}`.includes(query),
+        ),
       }))
       .filter((group) => group.sports.length > 0);
   }, [query]);
@@ -427,7 +565,9 @@ export default function SportsPage() {
               全部 ({sportsDetails.length})
             </button>
             {allCategories.map((cat) => {
-              const count = sportsDetails.filter((s) => s.category === cat).length;
+              const count = sportsDetails.filter(
+                (s) => s.category === cat,
+              ).length;
               const active = selectedCategory === cat;
               return (
                 <button
@@ -449,7 +589,9 @@ export default function SportsPage() {
             <button
               onClick={() => setViewMode("detail")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-                viewMode === "detail" ? "bg-teal-100 text-teal-800" : "text-slate-500 hover:bg-slate-100"
+                viewMode === "detail"
+                  ? "bg-teal-100 text-teal-800"
+                  : "text-slate-500 hover:bg-slate-100"
               }`}
             >
               詳細模式
@@ -457,7 +599,9 @@ export default function SportsPage() {
             <button
               onClick={() => setViewMode("summary")}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-                viewMode === "summary" ? "bg-teal-100 text-teal-800" : "text-slate-500 hover:bg-slate-100"
+                viewMode === "summary"
+                  ? "bg-teal-100 text-teal-800"
+                  : "text-slate-500 hover:bg-slate-100"
               }`}
             >
               摘要模式
@@ -480,7 +624,9 @@ export default function SportsPage() {
             </div>
             <div className="space-y-6">
               <div className="card sticky top-24 p-5">
-                <h2 className="text-lg font-bold text-slate-900">支援注意事項</h2>
+                <h2 className="text-lg font-bold text-slate-900">
+                  支援注意事項
+                </h2>
                 <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-700">
                   {sportSupportChecklist.map((item) => (
                     <li key={item}>{item}</li>
@@ -491,14 +637,25 @@ export default function SportsPage() {
                 <h2 className="text-lg font-bold text-slate-900">快速統計</h2>
                 <div className="mt-3 space-y-2 text-sm">
                   <p className="text-slate-600">
-                    共 <span className="font-bold text-teal-700">{sportsDetails.length}</span> 項運動
+                    共{" "}
+                    <span className="font-bold text-teal-700">
+                      {sportsDetails.length}
+                    </span>{" "}
+                    項運動
                   </p>
                   <p className="text-slate-600">
-                    目前顯示 <span className="font-bold text-teal-700">{filtered.length}</span> 項
+                    目前顯示{" "}
+                    <span className="font-bold text-teal-700">
+                      {filtered.length}
+                    </span>{" "}
+                    項
                   </p>
                   {selectedCategory && (
                     <p className="text-slate-600">
-                      篩選：<span className="font-bold text-teal-700">{selectedCategory}</span>
+                      篩選：
+                      <span className="font-bold text-teal-700">
+                        {selectedCategory}
+                      </span>
                     </p>
                   )}
                 </div>
@@ -520,7 +677,9 @@ export default function SportsPage() {
                         <h3 className="text-lg font-semibold">
                           <Highlight text={sport.name} query={query} />
                         </h3>
-                        <p className="mt-2 text-sm font-medium text-teal-700">處理時間：{sport.time}</p>
+                        <p className="mt-2 text-sm font-medium text-teal-700">
+                          處理時間：{sport.time}
+                        </p>
                         <p className="mt-3 text-sm leading-7 text-slate-700">
                           <Highlight text={sport.note} query={query} />
                         </p>
