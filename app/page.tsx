@@ -73,7 +73,7 @@ export default function HomePage() {
                 { title: "19 項運動醫護手冊", icon: Activity },
                 { title: "場邊評估工具總覽", icon: Stethoscope },
                 { title: "高風險 Decision Tree", icon: ShieldAlert },
-                { title: "情境測驗與互動學習", icon: ListChecks },
+                { title: "國際經典案例回顧", icon: ListChecks },
               ].map((item) => {
                 const Icon = item.icon;
                 return (

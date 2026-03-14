@@ -3,7 +3,7 @@ import { Brain, ChevronRight } from "lucide-react";
 import { PageShell } from "@/components/ui/page-shell";
 import { EmergencyGrid } from "@/components/emergency-grid";
 import { ReturnToPlayCard } from "@/components/return-to-play-card";
-import { ScenarioQuiz } from "@/components/scenario-quiz";
+
 import { SectionTitle } from "@/components/section-title";
 import { EmergencyQuickActions } from "@/components/emergency-quick-actions";
 import {
@@ -15,7 +15,6 @@ import {
   emergencyCategories,
   headInjuryFlow,
   returnToPlayPrinciples,
-  scenarioQuestions,
 } from "@/data/emergency";
 
 export const metadata: Metadata = { title: "場邊急症處理" };
@@ -27,7 +26,7 @@ export default function EmergencyPage() {
         <SectionTitle
           eyebrow="Emergency Management"
           title="場邊急症處理"
-          desc="倫理、回場原則、六大類急症、頭部外傷分流與情境測驗。"
+          desc="倫理、回場原則、六大類急症與頭部外傷分流。"
         />
 
         <EmergencyQuickActions />
@@ -128,11 +127,6 @@ export default function EmergencyPage() {
               </div>
             </div>
           </div>
-        </section>
-
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-slate-900">情境測驗</h2>
-          <ScenarioQuiz questions={scenarioQuestions} />
         </section>
 
         <ChapterNav />
