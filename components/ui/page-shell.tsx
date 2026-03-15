@@ -31,7 +31,7 @@ export function PageShell({ children }: { children: ReactNode }) {
           <div className="mx-auto mt-4 max-w-2xl space-y-1 text-xs text-slate-400">
             <p>
               本網站內容僅供 115
-              全大運賽事醫護支援人員教育訓練與現場參考之用，不構成正式醫療建議。
+              全大運賽事醫護支援人員課程與現場參考之用，不構成正式醫療建議。
             </p>
             <p>
               實際臨床處置應依現場狀況、專業判斷及醫師指示執行，本網站不承擔任何因使用本站內容所產生之責任。
