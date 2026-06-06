@@ -9,8 +9,8 @@ export function CourseMobileNav() {
   const pathname = usePathname();
 
   return (
-    <div className="lg:hidden">
-      <div className="flex gap-2 overflow-x-auto pb-1">
+    <nav aria-label="主要章節導覽（手機）" className="relative lg:hidden">
+      <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = pathname === item.href;
@@ -26,12 +26,16 @@ export function CourseMobileNav() {
                   : "border-slate-200 bg-white text-slate-600",
               )}
             >
-              <Icon className="h-4 w-4" />
+              <Icon aria-hidden="true" className="h-4 w-4" />
               {item.shortLabel}
             </Link>
           );
         })}
       </div>
-    </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-slate-50 to-transparent"
+      />
+    </nav>
   );
 }

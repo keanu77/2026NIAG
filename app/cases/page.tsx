@@ -202,21 +202,26 @@ export default function CasesPage() {
         {/* Search & Filters */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Search
+              aria-hidden="true"
+              className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+            />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="搜尋案例…"
+              aria-label="搜尋案例"
               className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm outline-none transition focus:border-teal-400 focus:ring-2 focus:ring-teal-100"
             />
           </div>
 
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-slate-400" />
+            <Filter aria-hidden="true" className="h-4 w-4 text-slate-400" />
             <select
               value={sportFilter}
               onChange={(e) => setSportFilter(e.target.value)}
+              aria-label="依運動類別篩選"
               className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-teal-400"
             >
               <option value="all">全部運動</option>
@@ -230,6 +235,7 @@ export default function CasesPage() {
             <select
               value={outcomeFilter}
               onChange={(e) => setOutcomeFilter(e.target.value)}
+              aria-label="依事件結果篩選"
               className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-teal-400"
             >
               <option value="all">全部結果</option>
@@ -255,6 +261,7 @@ export default function CasesPage() {
         {/* Best Practices */}
         <section className="space-y-6">
           <SectionTitle
+            as="h2"
             eyebrow="Best Practices"
             title="最佳實務建議"
             desc="從 22 件案例歸納出的場邊醫療核心建議。"
@@ -271,10 +278,7 @@ export default function CasesPage() {
               </div>
               <div className="mt-4 space-y-3">
                 {bestPractices.immediate.map((bp) => (
-                  <div
-                    key={bp.title}
-                    className="rounded-2xl bg-amber-50 p-4"
-                  >
+                  <div key={bp.title} className="rounded-2xl bg-amber-50 p-4">
                     <p className="text-sm font-semibold text-amber-900">
                       {bp.title}
                     </p>
@@ -294,10 +298,7 @@ export default function CasesPage() {
               </div>
               <div className="mt-4 space-y-3">
                 {bestPractices.longTerm.map((bp) => (
-                  <div
-                    key={bp.title}
-                    className="rounded-2xl bg-teal-50 p-4"
-                  >
+                  <div key={bp.title} className="rounded-2xl bg-teal-50 p-4">
                     <p className="text-sm font-semibold text-teal-800">
                       {bp.title}
                     </p>

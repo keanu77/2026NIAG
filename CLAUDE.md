@@ -21,19 +21,25 @@ npm run lint   # ESLint 檢查
 
 - **app/** — Next.js 14 App Router 頁面，每個 `page.tsx` 對應一個課程章節
   - 首頁 `/` → 課程導覽與入口
-  - `/overview` `/roles` `/preparation` `/records` `/transfer` `/sports` `/emergency` `/contacts` → 各章節頁面
+  - `/overview` `/roles` `/preparation` `/records` `/transfer` `/sports` `/emergency` `/assessment` `/cases` → 各章節頁面
   - `error.tsx` / `not-found.tsx` — 自訂錯誤與 404 頁面
-  - Client component 頁面（`preparation`、`sports`）透過同目錄 `layout.tsx` 匯出 metadata
+  - `sitemap.ts` — static export 產生 sitemap.xml（由 `navItems` 衍生）
+  - `icon.svg` — favicon（Next.js file-based convention）
+  - Client component 頁面（`preparation`、`sports`、`cases`、`assessment`）透過同目錄 `layout.tsx` 匯出 metadata
 - **components/** — 可重用元件
   - `ui/page-shell.tsx` — 全站佈局骨架（sidebar + mobile nav + main content + back-to-top），所有頁面都包在 `<PageShell>` 內
   - `course-sidebar.tsx` / `course-mobile-nav.tsx` — 導覽列，共用 `data/nav-items.ts` 的 navItems 陣列
   - `chapter-nav.tsx` — 章節前後導覽，所有章節頁面底部使用
   - `numbered-step-card.tsx` — 編號步驟卡片共用元件
   - `emergency-*` 系列 — 場邊急症處理模組（decision tree、grid、quick actions）
-  - `scenario-quiz.tsx` — 情境測驗互動元件（含重考功能）
+  - `section-title.tsx` — 區段標題（支援 `as` prop 控制 h1/h2 階層，每頁僅一個 h1）
+  - `stat-card.tsx` / `return-to-play-card.tsx` — 統計卡片與返場原則卡片
+  - `back-to-top.tsx` — 回到頂部按鈕（尊重 `prefers-reduced-motion`）
 - **data/** — 所有內容資料以 TypeScript 常數匯出（非 JSON），頁面直接 import 使用
-  - `nav-items.ts` — 導覽項目共用陣列，sidebar / mobile nav / chapter-nav 共用
+  - `nav-items.ts` — 導覽項目共用陣列，sidebar / mobile nav / chapter-nav / sitemap 共用
+  - `site.ts` — 全站版本號、網域等單一資訊來源
 - **lib/utils.ts** — `cn()` class merge 工具函式（clsx + tailwind-merge）
+- **lib/metadata.ts** — `pageMetadata()` 各章節頁 metadata（title／description／canonical／OG）產生器
 
 ## Key Conventions
 

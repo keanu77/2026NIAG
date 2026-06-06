@@ -19,14 +19,20 @@ import {
 
 function ToolCard({ section }: { section: ToolSection }) {
   const [open, setOpen] = useState(false);
+  const panelId = `tool-panel-${section.id}`;
 
   return (
     <div className="card overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-controls={panelId}
         className="flex w-full items-center gap-3 p-5 text-left transition hover:bg-slate-50"
       >
-        <Stethoscope className="h-5 w-5 shrink-0 text-teal-600" />
+        <Stethoscope
+          aria-hidden="true"
+          className="h-5 w-5 shrink-0 text-teal-600"
+        />
         <div className="min-w-0 flex-1">
           <h3 className="font-bold text-slate-900">{section.title}</h3>
           {section.subtitle && (
@@ -34,14 +40,20 @@ function ToolCard({ section }: { section: ToolSection }) {
           )}
         </div>
         {open ? (
-          <ChevronUp className="h-5 w-5 shrink-0 text-slate-400" />
+          <ChevronUp
+            aria-hidden="true"
+            className="h-5 w-5 shrink-0 text-slate-400"
+          />
         ) : (
-          <ChevronDown className="h-5 w-5 shrink-0 text-slate-400" />
+          <ChevronDown
+            aria-hidden="true"
+            className="h-5 w-5 shrink-0 text-slate-400"
+          />
         )}
       </button>
 
       {open && (
-        <div className="space-y-4 border-t border-slate-100 p-5">
+        <div id={panelId} className="space-y-4 border-t border-slate-100 p-5">
           {section.warning && (
             <div className="flex items-start gap-2 rounded-2xl bg-amber-50 p-4 text-sm text-amber-800">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
@@ -78,18 +90,22 @@ function ToolCard({ section }: { section: ToolSection }) {
           ))}
 
           {section.tables?.map((table) => (
-            <div key={table.caption ?? table.headers.join("-")} className="overflow-x-auto">
-              {table.caption && (
-                <h4 className="mb-2 text-sm font-semibold text-slate-800">
-                  {table.caption}
-                </h4>
-              )}
+            <div
+              key={table.caption ?? table.headers.join("-")}
+              className="overflow-x-auto"
+            >
               <table className="w-full text-sm">
+                {table.caption && (
+                  <caption className="mb-2 text-left text-sm font-semibold text-slate-800">
+                    {table.caption}
+                  </caption>
+                )}
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-50">
                     {table.headers.map((h) => (
                       <th
                         key={h}
+                        scope="col"
                         className="px-3 py-2 text-left font-semibold text-slate-700"
                       >
                         {h}
@@ -171,15 +187,25 @@ export default function AssessmentPage() {
             快速參考總覽
           </h2>
           <table className="w-full text-sm">
+            <caption className="sr-only">評估工具快速參考總覽</caption>
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50">
-                <th className="px-3 py-2 text-left font-semibold text-slate-700">
+                <th
+                  scope="col"
+                  className="px-3 py-2 text-left font-semibold text-slate-700"
+                >
                   工具
                 </th>
-                <th className="px-3 py-2 text-left font-semibold text-slate-700">
+                <th
+                  scope="col"
+                  className="px-3 py-2 text-left font-semibold text-slate-700"
+                >
                   適用情境
                 </th>
-                <th className="px-3 py-2 text-left font-semibold text-slate-700">
+                <th
+                  scope="col"
+                  className="px-3 py-2 text-left font-semibold text-slate-700"
+                >
                   關鍵決策
                 </th>
               </tr>
@@ -205,12 +231,16 @@ export default function AssessmentPage() {
 
         {/* Search */}
         <div className="relative mt-8">
-          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <Search
+            aria-hidden="true"
+            className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+          />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="搜尋評估工具…"
+            aria-label="搜尋評估工具"
             className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm outline-none transition focus:border-teal-400 focus:ring-2 focus:ring-teal-100"
           />
         </div>

@@ -1,13 +1,9 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Activity,
-  BookOpen,
   ChevronRight,
-  HeartPulse,
   ListChecks,
   ShieldAlert,
-  Smartphone,
   Stethoscope,
 } from "lucide-react";
 import { PageShell } from "@/components/ui/page-shell";
@@ -16,19 +12,15 @@ import { StatCard } from "@/components/stat-card";
 import { NumberedStepCard } from "@/components/numbered-step-card";
 import { ChapterNav } from "@/components/chapter-nav";
 import { overviewStats, missionPoints } from "@/data/overview";
+import { navItems } from "@/data/nav-items";
+import { SITE_VERSION } from "@/data/site";
 
-export const metadata: Metadata = { title: "首頁" };
+// 首頁不另設 metadata，直接繼承 app/layout.tsx 的 root metadata
+// （title 顯示品牌全名、canonical 為 "/"、openGraph 含分享圖）。
 
-const learningOrder = [
-  "賽事總覽",
-  "角色分工",
-  "賽前準備",
-  "紀錄與回報",
-  "後送與應變",
-  "單項規則",
-  "場邊急症處理",
-  "重要窗口",
-];
+const learningOrder = navItems
+  .filter((item) => item.href !== "/")
+  .map((item) => item.label);
 
 export default function HomePage() {
   return (
@@ -41,7 +33,7 @@ export default function HomePage() {
                 115 全大運 × 醫療救護教育訓練
               </div>
               <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-5xl">
-                全大運賽事醫護支援需知 v1.5
+                全大運賽事醫護支援需知 {SITE_VERSION}
               </h1>
               <p className="max-w-3xl text-sm leading-7 text-white/85 md:text-base">
                 這是一個給賽事支援醫護人員、護理師、EMT、AT/PT
@@ -94,6 +86,7 @@ export default function HomePage() {
 
         <section>
           <SectionTitle
+            as="h2"
             eyebrow="Overview"
             title="課程快速總覽"
             desc="先用數字與任務概觀，建立整體感。"

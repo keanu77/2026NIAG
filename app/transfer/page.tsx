@@ -1,10 +1,15 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { PageShell } from "@/components/ui/page-shell";
 import { SectionTitle } from "@/components/section-title";
 import { NumberedStepCard } from "@/components/numbered-step-card";
 import { ChapterNav } from "@/components/chapter-nav";
 
-export const metadata: Metadata = { title: "後送與應變" };
+export const metadata = pageMetadata({
+  title: "後送與應變",
+  description:
+    "全大運場邊緊急後送判斷與通報流程：辨識需緊急後送之傷病徵象、聯繫救護車與醫護中心、回報與追蹤。",
+  path: "/transfer",
+});
 
 const urgentTransferFlags = [
   "大量出血的傷害",
@@ -27,13 +32,22 @@ export default function TransferPage() {
   return (
     <PageShell>
       <div className="page-wrap">
-        <SectionTitle eyebrow="Transfer & Response" title="後送與應變" desc="需不需要後送，由醫師統一診斷與決策。" />
+        <SectionTitle
+          eyebrow="Transfer & Response"
+          title="後送與應變"
+          desc="需不需要後送，由醫師統一診斷與決策。"
+        />
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="card p-6">
             <h2 className="text-xl font-bold">建議緊急後送情況</h2>
             <div className="mt-4 space-y-3">
               {urgentTransferFlags.map((item) => (
-                <div key={item} className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-950">{item}</div>
+                <div
+                  key={item}
+                  className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-950"
+                >
+                  {item}
+                </div>
               ))}
             </div>
           </div>

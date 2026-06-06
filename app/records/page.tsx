@@ -1,9 +1,14 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { PageShell } from "@/components/ui/page-shell";
 import { SectionTitle } from "@/components/section-title";
 import { ChapterNav } from "@/components/chapter-nav";
 
-export const metadata: Metadata = { title: "紀錄與回報" };
+export const metadata = pageMetadata({
+  title: "紀錄與回報",
+  description:
+    "全大運場邊醫護必備表單與紀錄：簽到退、賽前準備檢核、醫藥衛材檢核、醫療防護與處理紀錄等。",
+  path: "/records",
+});
 
 const forms = [
   ["簽到退單", "必填"],
@@ -19,15 +24,24 @@ export default function RecordsPage() {
   return (
     <PageShell>
       <div className="page-wrap">
-        <SectionTitle eyebrow="Records" title="紀錄與回報" desc="線上填報為主，紙本紀錄為備援。" />
+        <SectionTitle
+          eyebrow="Records"
+          title="紀錄與回報"
+          desc="線上填報為主，紙本紀錄為備援。"
+        />
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="card p-6">
             <h2 className="text-xl font-bold">必備表單</h2>
             <div className="mt-4 space-y-3">
               {forms.map(([name, tag]) => (
-                <div key={name} className="flex items-center justify-between rounded-2xl border border-slate-200 p-4 text-sm">
+                <div
+                  key={name}
+                  className="flex items-center justify-between rounded-2xl border border-slate-200 p-4 text-sm"
+                >
                   <span>{name}</span>
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">{tag}</span>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                    {tag}
+                  </span>
                 </div>
               ))}
             </div>

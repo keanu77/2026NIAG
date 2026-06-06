@@ -10,7 +10,7 @@ export function CourseSidebar() {
 
   return (
     <aside className="sticky top-0 hidden h-screen border-r border-slate-200 bg-white/90 p-5 backdrop-blur lg:block">
-      <nav className="space-y-2">
+      <nav aria-label="主要章節導覽" className="space-y-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = pathname === item.href;

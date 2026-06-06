@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Brain, ChevronRight } from "lucide-react";
 import { PageShell } from "@/components/ui/page-shell";
 import { EmergencyGrid } from "@/components/emergency-grid";
@@ -17,7 +17,12 @@ import {
   returnToPlayPrinciples,
 } from "@/data/emergency";
 
-export const metadata: Metadata = { title: "場邊急症處理" };
+export const metadata = pageMetadata({
+  title: "場邊急症處理",
+  description:
+    "全大運場邊常見急症處理：場邊倫理、重返賽場原則、六大類急症與頭部創傷分流決策。",
+  path: "/emergency",
+});
 
 export default function EmergencyPage() {
   return (
@@ -45,6 +50,7 @@ export default function EmergencyPage() {
 
         <section className="space-y-4">
           <SectionTitle
+            as="h2"
             eyebrow="Decision Support"
             title="高風險情境快速流程"
             desc="適合場邊先用來建立第一反應，再進一步搭配完整醫療評估。"

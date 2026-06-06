@@ -611,7 +611,7 @@ export default function SportsPage() {
 
         {viewMode === "detail" ? (
           /* 詳細模式 */
-          <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
+          <div className="grid gap-6 lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_320px]">
             <div className="space-y-4">
               {filtered.length === 0 && (
                 <div className="card p-8 text-center text-sm text-slate-500">
@@ -622,8 +622,8 @@ export default function SportsPage() {
                 <SportCard key={sport.id} sport={sport} query={query} />
               ))}
             </div>
-            <div className="space-y-6">
-              <div className="card sticky top-24 p-5">
+            <div className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+              <div className="card p-5">
                 <h2 className="text-lg font-bold text-slate-900">
                   支援注意事項
                 </h2>
@@ -633,7 +633,7 @@ export default function SportsPage() {
                   ))}
                 </ul>
               </div>
-              <div className="card sticky top-[420px] p-5">
+              <div className="card p-5">
                 <h2 className="text-lg font-bold text-slate-900">快速統計</h2>
                 <div className="mt-3 space-y-2 text-sm">
                   <p className="text-slate-600">
@@ -664,7 +664,7 @@ export default function SportsPage() {
           </div>
         ) : (
           /* 摘要模式（保留原始簡潔視圖） */
-          <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
+          <div className="grid gap-6 lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_320px]">
             <div className="space-y-6">
               {filteredSummary.map((group) => (
                 <section key={group.group} className="space-y-4">
